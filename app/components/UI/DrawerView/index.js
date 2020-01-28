@@ -2,6 +2,7 @@ import React, { PureComponent } from 'react';
 import {
 	Alert,
 	Clipboard,
+	Linking,
 	Platform,
 	TouchableOpacity,
 	View,
@@ -589,8 +590,12 @@ class DrawerView extends PureComponent {
 	};
 
 	goToBugFeedback = () => {
-		this.goToBrowserUrl(`https://metamask.zendesk.com/hc/en-us/requests/new`, strings('drawer.submit_bug'));
-		this.setState({ submitFeedback: false });
+		Linking.openURL('https://metamask.zendesk.com/hc/en-us/requests/new')
+			.then(this.closeSubmitFeedback)
+			.catch(error => {
+				console.log(error);
+				this.closeSubmitFeedback();
+			});
 	};
 
 	goToGeneralFeedback = () => {
@@ -603,11 +608,14 @@ class DrawerView extends PureComponent {
 		const buildNumber = await getBuildNumber();
 		const systemName = await getSystemName();
 		const systemVersion = systemName === 'Android' ? await getApiLevel() : await getSystemVersion();
-		this.goToBrowserUrl(
-			`https://docs.google.com/forms/d/e/${formId}/viewform?entry.649573346=${systemName}+${systemVersion}+MM+${appVersion}+(${buildNumber})`,
-			strings('drawer.feedback')
-		);
-		this.setState({ submitFeedback: false });
+		Linking.openURL(
+			`https://docs.google.com/forms/d/e/${formId}/viewform?entry.649573346=${systemName}+${systemVersion}+MM+${appVersion}+(${buildNumber})`
+		)
+			.then(this.closeSubmitFeedback)
+			.catch(error => {
+				console.log(error);
+				this.closeSubmitFeedback();
+			});
 	};
 
 	showHelp = () => {
