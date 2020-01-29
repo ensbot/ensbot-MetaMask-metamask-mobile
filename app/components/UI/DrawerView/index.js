@@ -601,7 +601,7 @@ class DrawerView extends PureComponent {
 				.catch(handleError);
 		} else {
 			this.goToBrowserUrl(url, strings('drawer.submit_bug'));
-			this.setState({ submitFeedback: false });
+			this.closeSubmitFeedback();
 		}
 	};
 	goToBugFeedback = () => {
