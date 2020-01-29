@@ -286,6 +286,8 @@ const drawerBg = require('../../../images/drawer-bg.png'); // eslint-disable-lin
 const instapay_logo_selected = require('../../../images/mm-instapay-selected.png'); // eslint-disable-line
 const instapay_logo = require('../../../images/mm-instapay.png'); // eslint-disable-line
 
+const USE_EXTERNAL_LINKS = (Platform.OS === 'android') | false;
+
 /**
  * View component that displays the MetaMask fox
  * in the middle of the screen
@@ -588,14 +590,22 @@ class DrawerView extends PureComponent {
 	closeSubmitFeedback = () => {
 		this.setState({ submitFeedback: false });
 	};
-
+	handleURL = url => {
+		const handleError = error => {
+			console.log(error);
+			this.closeSubmitFeedback();
+		};
+		if (USE_EXTERNAL_LINKS) {
+			Linking.openURL(url)
+				.then(this.closeSubmitFeedback)
+				.catch(handleError);
+		} else {
+			this.goToBrowserUrl(url, strings('drawer.submit_bug'));
+			this.setState({ submitFeedback: false });
+		}
+	};
 	goToBugFeedback = () => {
-		Linking.openURL('https://metamask.zendesk.com/hc/en-us/requests/new')
-			.then(this.closeSubmitFeedback)
-			.catch(error => {
-				console.log(error);
-				this.closeSubmitFeedback();
-			});
+		this.handleURL('https://metamask.zendesk.com/hc/en-us/requests/new');
 	};
 
 	goToGeneralFeedback = () => {
@@ -608,14 +618,9 @@ class DrawerView extends PureComponent {
 		const buildNumber = await getBuildNumber();
 		const systemName = await getSystemName();
 		const systemVersion = systemName === 'Android' ? await getApiLevel() : await getSystemVersion();
-		Linking.openURL(
+		this.handleURL(
 			`https://docs.google.com/forms/d/e/${formId}/viewform?entry.649573346=${systemName}+${systemVersion}+MM+${appVersion}+(${buildNumber})`
-		)
-			.then(this.closeSubmitFeedback)
-			.catch(error => {
-				console.log(error);
-				this.closeSubmitFeedback();
-			});
+		);
 	};
 
 	showHelp = () => {
