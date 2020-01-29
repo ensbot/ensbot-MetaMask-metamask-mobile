@@ -286,7 +286,7 @@ const drawerBg = require('../../../images/drawer-bg.png'); // eslint-disable-lin
 const instapay_logo_selected = require('../../../images/mm-instapay-selected.png'); // eslint-disable-line
 const instapay_logo = require('../../../images/mm-instapay.png'); // eslint-disable-line
 
-const USE_EXTERNAL_LINKS = (Platform.OS === 'android') | false;
+const USE_EXTERNAL_LINKS = Platform.OS === 'android' || false;
 
 /**
  * View component that displays the MetaMask fox
