@@ -7102,9 +7102,9 @@ merkle-patricia-tree@^2.1.2, merkle-patricia-tree@^2.3.2:
     rlp "^2.0.0"
     semaphore ">=1.0.1"
 
-"metamask-mobile-provider@git+ssh://git@github.com/metamask/metamask-mobile-provider.git#ed038a21d4301ece822f3926e504a1081ae65456":
+metamask-mobile-provider@MetaMask/metamask-mobile-provider#provider-compat:
   version "1.0.0"
-  resolved "git+ssh://git@github.com/metamask/metamask-mobile-provider.git#ed038a21d4301ece822f3926e504a1081ae65456"
+  resolved "https://codeload.github.com/MetaMask/metamask-mobile-provider/tar.gz/6b9b7688b5c83e330be43ed0f1a867800c271be9"
 
 methods@^1.1.1:
   version "1.1.2"
